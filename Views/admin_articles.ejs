@@ -1,0 +1,36 @@
+
+<html>
+    <head>
+        <title>Administration</title>
+        <link rel="stylesheet" type = "text/css" href = '/Styles/styles.css'>
+    </head>
+    <body>
+        <div id="container">        
+            <div id="top-menu">
+                <%- include ("./partials/menu") %></div>
+            <div id="header">Header</div>
+            <div id="status_bar">Status_bar</div>
+            <div id="content">
+
+                <a href="/admin/admin_articles">Articles Admin.</a>
+                <a href="/admin/admin_comments">Comments Admin.</a>
+                <a href="/admin/admin_users">Users Admin.</a>
+        </div>
+
+        <div id ="Articles_list">List Of Articles:
+            <table>
+                <tr><td>Article Author</td><td>Article Title</td><td>Article Date</td></tr>
+                <% data.forEach(entry => { %>
+                <tr>
+                    <td><%= entry.article_author %></td>
+                    <td><%= entry.article_title %></td>
+                    <td><%= entry.article_date %></td>        
+                    <td><a href="../articles/edit_article/<%= entry.article_id %>">EDIT</a></td>                                        
+                </tr>
+                <% }) %>
+            </table>
+        </div>
+        <div id="footer"><%- include ("./partials/footer") %></div>
+    </div>
+    </body>
+</html>

@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>Public/index</title>
+        <link rel="stylesheet" type = "text/css" href = '/Styles/styles.css'>
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        </head>
+        <body>
+        <div id="container">        
+            <div id="top-menu">
+                <%- include ("./partials/menu") %></div>
+            <div id="header">Header</div>
+            <div id="status_bar">Status_bar</div>
+            <div id="content">
+                <div id="options">
+                    <a href="articles/create_new_article">New Article</a><br>
+                    <a href="articles/delete_article">Delete Articles</a>
+                </div>
+                        <div class = "article">
+                        <div class = "article_image">
+                        <div class = "article_title"><h1><%= data_articles[0].article_title %></h1> </div>
+                        </div>
+                        <div class = "article_date"><%= data_articles[0].article_date %></div>
+                        <div class = "article_author"><%= data_articles[0].article_author %></div>
+                        </div>  
+                        <div class = "article_text"><%- data_articles[0].article_text %></div>    
+                        
+                <div id="comment_section">
+                    <div id="comments">
+                        <table>
+                            <% data_comments.forEach(entry => { %>
+                            <div class="article_comment">
+                                <div class="article_comments_info"><%= entry.comment_author %> | <%= entry.comment_create_date %></div>
+                                <div class="article_comments_text"><%= entry.comment_text %></div>
+                                <div class="article_comments_options" style="float: right"> 
+                                    <button class="reply-btn">Reply</button> 
+                                    <div class="reply-form" style="display:none;">
+                                        <input type="text" placeholder="Your reply">
+                                        <button class="submit-reply-btn">Submit</button>
+                                    </div>
+                                    <button class="reply-btn">Quote</button> 
+                                    <div class="reply-form" style="display:none;">
+                                        <input type="text" placeholder="Your reply">
+                                        <button class="submit-reply-btn">Submit</button>
+                                    </div>
+                                    
+                                </div></div>
+                            <% }) %>
+                        </table>
+                    </div>
+                    <div id="user_comment">
+                        Add a comment:
+                        <form action="post_comment" method="post">
+                            <div id="editor">
+                            <input type="input" name="comment_text" style = "width: 80%; height: 30px; padding: 10px;" required><br><br>
+                            </div>
+                            <input name="article_id" type="hidden" value="<%= data_articles[0].article_id %>">
+                            <input type="submit" value="submit">
+                        </form>
+                    </div>
+                </div>
+    <div id = "footer">
+        <%- include ("./partials/footer") %>
+    </div>
+
+    <script>
+    // Function to toggle the reply form visibility
+function toggleReplyForm(event) {
+    const replyForm = event.target.nextElementSibling;
+    replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+}
+
+// Add event listeners to each reply button
+const replyButtons = document.querySelectorAll('.reply-btn');
+replyButtons.forEach(button => {
+    button.addEventListener('click', toggleReplyForm);
+});
+
+// Function to handle reply form submission (you can customize this part as needed)
+function handleReplySubmission(event) {
+    event.preventDefault();
+    const replyInput = event.target.previousElementSibling;
+    const replyText = replyInput.value;
+    console.log('Reply:', replyText);
+
+    // You can now send the reply data to the server via AJAX or handle it as needed.
+}
+
+// Add event listeners to each submit button inside the reply form
+const submitButtons = document.querySelectorAll('.submit-reply-btn');
+submitButtons.forEach(button => {
+    button.addEventListener('click', handleReplySubmission);
+});
+</script>
+
+    </body>
+</html>

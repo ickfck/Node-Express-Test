@@ -1,0 +1,31 @@
+
+<html>
+    <head>
+        <title>Administration</title>
+        <link rel="stylesheet" type = "text/css" href = '/Styles/styles.css'>
+    </head>
+    <body>
+        <div id="container">        
+            <div id="top-menu">
+                <%- include ("./partials/menu") %></div>
+            <div id="header">Header</div>
+            <div id="status_bar">Status_bar</div>
+            <div id="content">
+                <a href="/admin/admin_articles">Articles Admin.</a>
+                <a href="/admin/admin_comments">Comments Admin.</a>
+                <a href="/admin/admin_users">Users Admin.</a>
+        </div>
+        <div id="footer"><%- include ("./partials/footer") %></div>
+
+        <form action="/users/new_user" method="post">
+            <label for="user_name">User name 1</label>
+            <input type="text" id="user_name" name="user_name" required><br>
+        
+            <label for="user_password">User Password</label>
+            <input type= "text" id="user_password" name="user_password" required><br>
+        
+            <input type="submit" value="Submit">
+          </form>
+    </div>
+    </body>
+</html>

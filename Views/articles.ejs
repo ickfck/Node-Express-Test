@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Public/index</title>
+        <link rel="stylesheet" type = "text/css" href = '/Styles/styles.css'>
+        </head>
+        <body>
+        <div class="object-center bg-red-500" id="container">        
+            <div id="top-menu">
+                <%- include ("./partials/menu") %></div>
+            <div id="header" class="bg-blue-50"></div>
+            <div id="status_bar">Status_bar</div>
+            <div id="content">
+                <div id="options">
+                    <a href="articles/create_new_article">New Article</a><br>
+                </div>
+                <% data_articles.forEach(entry => { %>
+                        <div class = "article">
+                        <div class = "article_image">
+                        <div class = "article_title"><h1><a href="articles/view_article/<%= entry.article_id %>"><%= entry.article_title %></a></h1></div>
+                        </div>
+                        <div class = "article_date"><%= entry.article_date %></div>
+                        <div class = "article_author"><%- entry.article_author %></div>
+                        <div class="article_text">
+                        <% if (entry.article_text.length > 500) { %>
+                            <%= entry.article_text.substring(0, 500) + '...' %>
+                        <% } else { %>
+                            <%= entry.article_text %>
+                        <% } %>
+                        </div>    
+                        <div class = "article_footer"><a href="articles/view_article/<%= entry.article_id %>">View Article</a>
+
+                        </div>
+                        
+                    </div> 
+                <% })%>
+    <div id = "footer">
+        <%- include ("./partials/footer") %>
+    </div>
+    </body>
+</html>

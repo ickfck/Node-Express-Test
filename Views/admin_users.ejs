@@ -1,0 +1,43 @@
+
+<html>
+    <head>
+        <title>Administration</title>
+        <link rel="stylesheet" type = "text/css" href = '/Styles/styles.css'>
+    </head>
+    <body class="bg-red-700">
+        <div id="container">        
+            <div id="top-menu">
+                <%- include ("./partials/menu") %></div>
+            <div id="header" class="hidden">Header</div>
+            <div id="status_bar">Status_bar</div>
+            <div id="content">
+                <div id="admin_menu">
+                    <a href="/admin/admin_articles">Articles Admin.</a>
+                    <a href="/admin/admin_comments">Comments Admin.</a>
+                    <a href="/admin/admin_users">Users Admin.</a>
+                </div>
+                <div id="category_menu">
+                    <a href="/users/create_user">Create User</a>                    
+                </div>
+                
+                <div id ="Users_list">List Of Users:
+                    <table>
+                        <tr><td>User</td><td>User Password</td><td>User Create Date</td></tr>
+                        <% data.forEach(entry => { %>
+                        <tr>
+                            <td><%= entry.user_name %></td>
+                            <td><%= entry.user_password %></td>
+                            <td><%= entry.user_create_date %></td> 
+                            <td><a href="../users/edit_user/<%= entry.user_id %>">EDIT</a>
+                                <a href="../users/delete_user/<%= entry.user_id %>">DELETE</a></td>                            
+                        </tr>
+                        <% }) %>
+                    </table>
+                </div>
+        </div>
+        
+        <div id="footer"><%- include ("./partials/footer") %></div>
+    </div>
+    </body>
+<div class="red">
+</html>

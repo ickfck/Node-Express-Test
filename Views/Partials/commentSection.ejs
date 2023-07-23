@@ -1,0 +1,14 @@
+<div id="comment_section">
+    <div id="comments">
+        <table>
+            <% data_comments.forEach(entry => { %>
+            <tr>
+                <td><%= entry.comments_author %></td>
+                <td><%= entry.comment_text %></td>
+                <td><%= entry.comment_create_date %></td>                                         
+            </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="user_comment">User Comment Area</div>
+</div>
