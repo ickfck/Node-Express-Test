@@ -90,29 +90,50 @@ resolve(rows);
 
 exports.addComment = async (req, res) => {
 const articleId = req.body.article_id;
-const commentText = req.body.comment_text; // Assuming the comment text is sent in the request body
+const commentText = req.body.comment_text;
 
 try {
-const addCommentQuery = 'INSERT INTO comments (comment_author, comment_text, comment_create_date, article_id) VALUES (?, ?, current_Date(), ?)';
-const values = ['Admin', commentText, articleId];
+const comments1Query = 'SELECT * FROM comments WHERE article_id = ?';
+const comments1 = await queryToPromise(comments1Query, [articleId]);
+const number_of_comments = comments1.length + 1;
+
+const articleQuery = 'SELECT * FROM articles WHERE article_id = ?';
+const article = await queryToPromise(articleQuery, [articleId]);
+
+const addCommentQuery = 'INSERT INTO comments (comment_author, comment_text, comment_create_date, article_id, comment_article_order) VALUES (?, ?, current_Date(), ?, ?)';
+const values = ['Admin', commentText, articleId, number_of_comments];
 
 const comment = await queryToPromise(addCommentQuery, values);
 console.log(comment);
-
-// Fetch the article from the database
-const articleQuery = 'SELECT * FROM articles WHERE article_id = ?';
-const article = await queryToPromise(articleQuery, [articleId]);
 
 // Fetch the comments related to the article from the database
 const commentsQuery = 'SELECT * FROM comments WHERE article_id = ?';
 const comments = await queryToPromise(commentsQuery, [articleId]);
 
-res.render('view_article', { data_articles: article, data_comments: comments });
+res.render('view_article', { data_articles: article, data_comments: comments});
 } catch (err) {
 console.error(err);
 res.status(500).send('Error fetching article and comments');
 }
 };
+
+exports.removeArticle = async (request, response) => {
+    const article_id = request.params.id
+    try {
+        const articleDeleteQuery = 'DELETE FROM articles WHERE article_id= ?';
+        const comment = await queryToPromise(articleDeleteQuery, [article_id]);
+    
+        const articlesQuery = 'SELECT * FROM articles';
+        const articles = await queryToPromise(articlesQuery);
+
+        const commentsDeleteQuery = 'DELETE FROM comments WHERE article_id= ?';
+        const deleteComment = await queryToPromise(commentsDeleteQuery, [article_id]);
+    
+        response.render('admin_articles', {data: articles } )} catch (err) {
+            console.error(err);
+            response.status(500).send('Error Deleting The Article')
+        }
+    };
 
 function queryToPromise(query, values) {
 return new Promise((resolve, reject) => {
@@ -124,6 +145,3 @@ resolve(rows);
 }
 });
 })};
-
-
-

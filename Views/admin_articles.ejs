@@ -25,7 +25,8 @@
                     <td><%= entry.article_author %></td>
                     <td><%= entry.article_title %></td>
                     <td><%= entry.article_date %></td>        
-                    <td><a href="../articles/edit_article/<%= entry.article_id %>">EDIT</a></td>                                        
+                    <td><a href="../articles/edit_article/<%= entry.article_id %>">EDIT</a></td>
+                    <td><a href="../articles/delete_article/<%= entry.article_id %>">DELETE</a></td>                                        
                 </tr>
                 <% }) %>
             </table>

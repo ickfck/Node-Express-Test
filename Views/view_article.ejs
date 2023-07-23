@@ -29,7 +29,7 @@
                         <table>
                             <% data_comments.forEach(entry => { %>
                             <div class="article_comment">
-                                <div class="article_comments_info"><%= entry.comment_author %> | <%= entry.comment_create_date %></div>
+                                <div class="article_comments_info"><%= entry.comment_article_order %> | <%= entry.comment_author %> @ <%= entry.comment_create_date %></div>
                                 <div class="article_comments_text"><%= entry.comment_text %></div>
                                 <div class="article_comments_options" style="float: right"> 
                                     <button class="reply-btn">Reply</button> 

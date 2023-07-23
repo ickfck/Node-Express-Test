@@ -5,6 +5,8 @@ const mysqlConnection = require('../mysqlConnector');
 
 router.use(logger)
 
+const recordController = require('../Controllers/articlesController');
+
 router.get("/", (request, response) => {
     mysqlConnection.query('SELECT * FROM articles', (err, result) => {
         if (err) {

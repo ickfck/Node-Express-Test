@@ -19,17 +19,15 @@
                         <div class = "article_title"><h1><a href="articles/view_article/<%= entry.article_id %>"><%= entry.article_title %></a></h1></div>
                         </div>
                         <div class = "article_date"><%= entry.article_date %></div>
-                        <div class = "article_author"><%- entry.article_author %></div>
+                        <div class = "article_author"><%= entry.article_author %></div>
                         <div class="article_text">
                         <% if (entry.article_text.length > 500) { %>
-                            <%= entry.article_text.substring(0, 500) + '...' %>
+                            <%- entry.article_text.substring(0, 500) + '...' %>
                         <% } else { %>
-                            <%= entry.article_text %>
+                            <%- entry.article_text %>
                         <% } %>
                         </div>    
-                        <div class = "article_footer"><a href="articles/view_article/<%= entry.article_id %>">View Article</a>
-
-                        </div>
+                        <div class = "article_footer"><a href="articles/view_article/<%= entry.article_id %>">View Article</a></div>
                         
                     </div> 
                 <% })%>
