@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Register</title>
+        <link rel="stylesheet" type = "text/css" href = 'styles/styles.css'>
+    </head>
+    <body>
+        <div id="container">                
+            <div id="top-menu"><%- include ("./partials/menu") %></div>
+            <div id="header"></div>
+            <div id="status_bar">Status_bar</div>
+            <div id="content">
+            <div id = "loginForm" name="loginForm" action="login">
+
+                <form action="/register" method="post" id="registerForm">
+                    Register:<br>
+                    <label for="user_name">User Name</label>
+                    <input id="user_name" name="user_name" type = "text" required><br>
+                    <label for="user_email">User email</label>
+                    <input id="user_email" name="user_email" type = "required" required><br>
+                    <label for="user_password">Password</label>
+                    <input id="user_password" name="user_password" type = "password" required><br>
+                    <label for="user_password">Password confirmation</label>
+                    <input id="user_password_re" name="user_password_re" type = "password" required><br><br>
+                    <button type="submit">Register</button>
+                <form>
+                    <a href="/login" style="color: black; ;">Login</a>
+            </div>
+            </div>
+        <div id="footer"><%- include ("./partials/footer") %></div>
+        </div>
+    </body>
+</html>

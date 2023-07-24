@@ -5,7 +5,7 @@
         <link rel="stylesheet" type = "text/css" href = '/Styles/styles.css'>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">    
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+        <script src="https://cdn.tiny.cloud/1/rh81ydikd4lgmzle8v8j55xfrfhubmqs5xbicpltufkqll61/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
           tinymce.init({
             selector: '#mytextarea',
@@ -39,6 +39,11 @@
                         <input type="text" id="article_title" name="article_title" required><br>
                         <label for="article_author">Article Author:</label>
                         <input type="text" id="article_author" name="article_author" required><br>
+                        <label for="article_preface">Article Preface:</label><br>   
+                        <textarea id="article_preface" name="article_preface">Hello, World! FUCK</textarea>     <br>            
+                        <label for="article_header">Article Header:</label>
+                        <input type="file" id="article_header" name="article_header" required><br>
+                        Article Header Preview:
                         <textarea id="mytextarea" name="article_text">Hello, World! FUCK</textarea>                 
                         <br>
                         <input type="submit" value="Submit">

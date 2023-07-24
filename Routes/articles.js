@@ -19,9 +19,10 @@ router.get("/create_new_article", (request, response) => {
 
 
 
-function logger(request, response, next){
-    console.log(request.originalUrl)
-    next()
-}
+    function logger(request, response, next){
+        console.log(request.originalUrl)
+        const originalUrl = request.originalUrl;
+        next()
+    }
 
 module.exports = router;

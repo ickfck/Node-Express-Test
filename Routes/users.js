@@ -2,14 +2,14 @@ const express = require('express')
 const router = express.Router()
 const mysqlConnection = require('../mysqlConnector');
 
+
 const userController = require('../Controllers/usersController')
 
 router.use(logger)
 
+
 router.get("/", userController.getAllUsers)
 router.get("/delete_user/:id", userController.deleteUser)
-
-
 router.get("/new_user", (request, response) => {
     response.render('new_user');
     console.log('New User Has Been Created')
@@ -22,8 +22,7 @@ router.get("/edit_user/:id", (request, response) => {
         if (err) {
             console.log(err);
         } else {
-            response.render('admin_edit_user', { data: rows[0] }); // Assuming there is only one user with the given ID, so we pass rows[0] to access that user's data.
-            console.log('Edit User');
+            response.render('admin_edit_user', { data: rows[0] });
             console.log(rows);
         }
     });
@@ -36,7 +35,7 @@ router.get("/edit_user/:id", (request, response) => {
             if (err) {
                 console.log(err);
             } else {
-                response.render('admin_create_user', { data: rows[0] }); // Assuming there is only one user with the given ID, so we pass rows[0] to access that user's data.
+                response.render('admin_create_user', { data: rows[0] }); 
                 console.log('Edit User');
                 console.log(rows);
             }

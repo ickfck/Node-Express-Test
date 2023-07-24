@@ -1,17 +1,18 @@
 const mysqlConnection = require('../mysqlConnector');
 
+
 exports.getAllArticles = (request, response) => {
-    const query = 'SELECT * FROM records';
-    mysqlConnection.query(query, (err, records) => {
-    mysqlConnection.query('SELECT * FROM articles ORDER BY article_date DESC', (err, result1) => {
-    if (err) {
-    console.log(err)
-    }
-    const data_articles = {data_articles: result1}
-    response.render('articles', data_articles);
-    console.log(data_articles);
-        })
-    })}
+const query = 'SELECT * FROM articles';
+mysqlConnection.query(query, (err, records) => {
+mysqlConnection.query('SELECT * FROM articles ORDER BY article_date DESC', (err, result1) => {
+if (err) {
+console.log(err)
+}
+const data_articles = {data_articles: result1}
+response.render('articles', data_articles);
+console.log(data_articles);
+    })
+})}
 
 exports.viewArticle =  (request, response) => {
 const article_id = request.params.id;
@@ -26,6 +27,7 @@ response.render('view_article',{data_articles: result});
 
 exports.postArticle = (request, response) => {
 const article_title = request.body.article_title;
+console.log(article_title);
 const article_author = request.body.article_author;
 const article_text = request.body.article_text        
 mysqlConnection.query('INSERT INTO articles (article_author, article_title, article_text, article_date) VALUES (?, ?, ?, Current_Date())', [article_author, article_title, article_text], (err, result) => {
@@ -76,18 +78,6 @@ res.status(500).send('Error fetching article and comments');
 }
 };
 
-function queryToPromise(query, values) {
-return new Promise((resolve, reject) => {
-mysqlConnection.query(query, values, (err, rows) => {
-if (err) {
-reject(err);
-} else {
-resolve(rows);
-}
-});
-})};
-
-
 exports.addComment = async (req, res) => {
 const articleId = req.body.article_id;
 const commentText = req.body.comment_text;
@@ -118,30 +108,30 @@ res.status(500).send('Error fetching article and comments');
 };
 
 exports.removeArticle = async (request, response) => {
-    const article_id = request.params.id
-    try {
-        const articleDeleteQuery = 'DELETE FROM articles WHERE article_id= ?';
-        const comment = await queryToPromise(articleDeleteQuery, [article_id]);
-    
-        const articlesQuery = 'SELECT * FROM articles';
-        const articles = await queryToPromise(articlesQuery);
+const article_id = request.params.id
+try {
+    const articleDeleteQuery = 'DELETE FROM articles WHERE article_id= ?';
+    const comment = await queryToPromise(articleDeleteQuery, [article_id]);
 
-        const commentsDeleteQuery = 'DELETE FROM comments WHERE article_id= ?';
-        const deleteComment = await queryToPromise(commentsDeleteQuery, [article_id]);
-    
-        response.render('admin_articles', {data: articles } )} catch (err) {
-            console.error(err);
-            response.status(500).send('Error Deleting The Article')
-        }
-    };
+    const articlesQuery = 'SELECT * FROM articles';
+    const articles = await queryToPromise(articlesQuery);
+
+    const commentsDeleteQuery = 'DELETE FROM comments WHERE article_id= ?';
+    const deleteComment = await queryToPromise(commentsDeleteQuery, [article_id]);
+
+    response.render('admin_articles', {data: articles } )} catch (err) {
+        console.error(err);
+        response.status(500).send('Error Deleting The Article')
+    }
+};
 
 function queryToPromise(query, values) {
-return new Promise((resolve, reject) => {
-mysqlConnection.query(query, values, (err, rows) => {
-if (err) {
-reject(err);
-} else {
-resolve(rows);
-}
-});
-})};
+    return new Promise((resolve, reject) => {
+    mysqlConnection.query(query, values, (err, rows) => {
+    if (err) {
+    reject(err);
+    } else {
+    resolve(rows);
+    }
+    });
+    })};
