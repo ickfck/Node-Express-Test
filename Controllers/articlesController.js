@@ -53,7 +53,7 @@ mysqlConnection.query('SELECT * FROM articles WHERE article_id=?', [articleId], 
 if (err) {
 console.log(err);
 } else {
-response.render('admin_edit_article', { data: rows[0] }); // Assuming there is only one user with the given ID, so we pass rows[0] to access that user's data.
+response.render('admin_edit_article', { data: rows[0] });q
 console.log('Edit User');
 }
 });

@@ -1,11 +1,14 @@
 var express = require('express');
-var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
+var jwt = require('jsonwebtoken')
+var cookieParser = require('cookie-parser')
 
 var app = express();
+
+app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(ignoreFavicon);
+
 
 const recordController = require('./Controllers/articlesController');
 app.use(express.static('Public'))
@@ -26,13 +29,6 @@ app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
 app.use('/login', usersRouter);
 app.use('/articles', articlesRouter);
-
-function ignoreFavicon(req, res, next) {
-    if (req.originalUrl.includes('favicon.ico')) {
-      res.status(204).end()
-    }
-    next();
-  }
 
 app.listen(3000)
 
