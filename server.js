@@ -1,30 +1,38 @@
 var express = require('express');
+var bcrypt = require('bcrypt');
+var bodyParser = require('body-parser');
+
 var app = express();
-const mysqlConnection = require('./mysqlConnector.js');
-const path = require('node:path'); 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(ignoreFavicon);
 
 const recordController = require('./Controllers/articlesController');
-
-app.use(express.json())
-app.use(express.urlencoded( {extended: true} ))
 app.use(express.static('Public'))
-
 
 app.get("/", recordController.getAllArticles)
 
 app.set('view engine', 'ejs')
 
 //Routes
-const singleRouter = require('./Routes/single_routes')
+const indexRouter = require('./Routes/index_routes')
 const usersRouter = require('./Routes/users')
 const articlesRouter = require('./Routes/articles')
 const adminRouter = require('./Routes/admin.js')
-const { password } = require('./mysqlConnector');
 
 //Router Scopes
-app.use('/', singleRouter);
+app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
+app.use('/login', usersRouter);
 app.use('/articles', articlesRouter);
 
+function ignoreFavicon(req, res, next) {
+    if (req.originalUrl.includes('favicon.ico')) {
+      res.status(204).end()
+    }
+    next();
+  }
+
 app.listen(3000)
+
