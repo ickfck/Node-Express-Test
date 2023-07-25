@@ -23,7 +23,6 @@ html,body {
     background-color: #f3f3f4;
     margin: auto;
     min-height: 100%;
-
     display: flex;
     flex-direction: column;
     position: relative;
@@ -41,6 +40,35 @@ a#topmenu:hover{
     color: green;
 }
 
+#header {
+    background-image: url('../imgs/web_header.jpg');
+    background-color: #5d737e;
+    height: 136px;
+    padding: 20px;
+    padding-bottom: 7px;
+    font-size: large;
+    text-align: right;
+    display: flex;
+  }
+
+#statusBar {
+    color: black;
+    background-color: white;
+    border-radius: 7px;
+    text-align: left;
+    max-height: 1,5em;
+    padding: 5px;
+    align-self: flex-end;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 900px;
+    background: rgba(238, 68, 68, 0.75);
+  }
+
+  #statusBar:empty {
+        display: none;
+  }
+  
 #user_section {
     background-color: #02111b;
     display: block;
@@ -54,16 +82,6 @@ a#topmenu:hover{
 
 h1{
     color: white;
-}
-
-#header {
-    background-image: url('../imgs/web_header.jpg');
-    background-color: #5d737e;
-    height: 136px;
-    padding: 20px;
-    font-size: large;
-    text-align: right;
-    display: flexbox;
 }
 
 #status_bar {

@@ -1,8 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken')
-var cookieParser = require('cookie-parser')
-
 var app = express();
 
 app.use(express.json())
@@ -19,6 +17,7 @@ app.set('view engine', 'ejs')
 
 //Routes
 const indexRouter = require('./Routes/index_routes')
+const forumRouter = require('./Routes/forum')
 const usersRouter = require('./Routes/users')
 const articlesRouter = require('./Routes/articles')
 const adminRouter = require('./Routes/admin.js')
@@ -29,6 +28,7 @@ app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
 app.use('/login', usersRouter);
 app.use('/articles', articlesRouter);
+app.use('/forum', forumRouter);
 
 app.listen(3000)
 

@@ -7,12 +7,16 @@
     <body>
         <div id="container">        
             <%- include ("./partials/menu") %>
-            <div id="header">Header</div>
-            <div style = "float: left" id="status_bar">Status_bar</div>
-            <a href="/admin/admin_comments">Comments Admin.</a>
-            <a href="/admin/admin_users">Users Admin.</a>                
-            <a href="/admin/admin_articles">Articles Admin.</a>
-
+            <div id="header">
+                <% if (typeof statusLog !== 'undefined') { %><div id="statusbar">
+                    <b><%= statusLog %></b></div>
+                    <% } %>
+            </div>
+                <div id="admin_menu">
+                    <a href="/admin/admin_comments">Comments Admin.</a>
+                    <a href="/admin/admin_users">Users Admin.</a>                
+                    <a href="/admin/admin_articles">Articles Admin.</a>
+                </div>  
             <div id ="Articles_list">List Of Articles:
                 <table>
                     <tr><td>Article Author</td><td>Article Title</td><td>Article Date</td></tr>

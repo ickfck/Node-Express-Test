@@ -5,10 +5,13 @@ var bcrypt = require('bcrypt');
 const { promisify } = require('util');
 const mysqlConnection = require('../mysqlConnector');
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser');
 
+router.use(cookieParser())
 router.use(logger)
 
-const userController = require('../Controllers/usersController')
+const userController = require('../Controllers/usersController');
+const { stat } = require('fs');
 
 router.get("/Experience", (request, response) => {
     response.render('experience');
@@ -49,11 +52,13 @@ router.post('/register', async (request, response) => {
             const register = queryToPromise(registerUserQuery, [user_name, hash, user_email]);            
             console.log('success')
         });
-        response.render('register')
+        const statusLog = "You have been registered."
+        response.render('register', { statusLog })
     } 
     else {
         console.log('No Match')
-        response.render('register')
+        const statusLog = "Your password and password confirmation don't match."
+        response.render('register', { statusLog } )
     }    
 
 })
@@ -67,52 +72,65 @@ router.post('/login', async (request, response) => {
 
     try {
         const login = await queryToPromise(UserAuthenticationQuery, [user_name]);
-        const stored_hashed_password = login[0].user_password;
 
-        const result = await comparePasswords(user_password, stored_hashed_password);
-        if (result) {
-            console.log('User Authenticated');
-            const user = { name: user_name };
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-            response.cookie("token", accessToken, { 
-qq                
-            })
-            console.log(accessToken)
-            console.log(user)
+        if (login.length === 0) {
+            const statusLog = 'User not registered';
+            console.log(statusLog);
+            response.render('login', { statusLog });
         } else {
-            console.log('User authentication Failed');
+            const stored_hashed_password = login[0].user_password;
+            const result = await comparePasswords(user_password, stored_hashed_password);
+            if (result) {
+                console.log('User Authenticated');
+                const user = { name: user_name };
+                const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+                response.cookie("token", accessToken, {
+                    httpOnly: true,
+                });
+                console.log(accessToken);
+                console.log(user);
+                const statusLog = 'You have been logged in as ' + user_name;
+                console.log(statusLog);
+                request.user = user;
+                response.render('login', { statusLog });
+            } else {
+                const statusLog = 'User authentication Failed';
+                console.log('User authentication Failed');
+                response.render('login', { statusLog });
+            }
         }
     } catch (err) {
         console.error('Error:', err);
     }
 });
 
-router.get("/admin/", tokenAuthentication, (request, response) => {
-    console.log(request.user)
-    if (request.user == "wellbi") {
+router.get("/admin", tokenAuthentication, (request, response) => {
+    const user = request.user;
+    if (user.name == "wellbi") {
     mysqlConnection.query('SELECT * FROM articles', (err, result) => {
         if (err) {
             console.log(err)
         }
-        console.log(result + 'KKK');
-        response.render('admin', {data: result});
+        console.log(result.rows);
+        response.render('admin', { data: result});
         })} else {
-            console.log(nellbi)
+            console.log('Failed token Authentication')
+            const statusLog = 'Failed token Authentication'
+            response.render('./', { statusLog })
         }
 }) 
 
 function tokenAuthentication(request, response, next) {
-    const token = request.headers["authorization"];
-    console.log(token);
-    // const token  = authHeader && authHeader.split(' ')[1]
-    if (token == null) return response.sendStatus(401)
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return response.sendStatus(403)
-        request.user = user
-        console.log(user)
-        next()
-    })
-}
+    const token = request.cookies.token;
+     console.log(token)
+     try {
+        const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        request.user = user;
+        next();
+     } catch (err) {
+        response.clearCookie("token");
+        return response.redirect('/')
+  }}
 
 function queryToPromise(query, values) {
     return new Promise((resolve, reject) => {
